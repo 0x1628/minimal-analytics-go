@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/fragment0/minimal-analytics-go;events";
+
+message User {
+  string device_id = 1;
+  string service_id = 2;
+}
+
+message Register {
+  User user = 11;
+  string os = 12;
+  string app_id = 13;
+  string screen = 14;
+  string app_version = 15;
+  string network_type = 16;
+  string ip = 17;
+  string location = 18;
+}
+
+message Event {
+  User user = 31;
+  string event = 32;
+  google.protobuf.Timestamp time = 33;
+  string network_type = 34;
+  string page_title = 35;
+  string page_url = 36;
+  string event_value = 37;
+  string event_extra = 38;
+}
