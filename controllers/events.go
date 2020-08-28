@@ -1,13 +1,11 @@
 package controllers
 
 import (
-	"fmt"
-
 	sls "github.com/aliyun/aliyun-log-go-sdk"
 	"github.com/fragment0/minimal-analytics-go/gen"
 	"github.com/fragment0/minimal-analytics-go/utils"
 	"github.com/gin-gonic/gin"
-	"github.com/gogo/protobuf/proto"
+	"github.com/golang/protobuf/proto"
 )
 
 var slsMap map[string]*utils.SLSTarget = make(map[string]*utils.SLSTarget)
@@ -40,9 +38,8 @@ func Events(c *gin.Context) {
 		c.Status(403)
 		return
 	}
-	fmt.Println(body)
 	err = proto.UnmarshalMerge(body, maevent)
-	if err != nil {
+	if err != nil || maevent.User == nil {
 		c.Status(403)
 		return
 	}
@@ -52,8 +49,6 @@ func Events(c *gin.Context) {
 		Key:   proto.String("type"),
 		Value: proto.String("events"),
 	})
-
-	fmt.Println(contents)
 
 	s.Send("test", c.ClientIP(), contents)
 }

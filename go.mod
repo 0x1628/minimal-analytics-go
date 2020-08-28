@@ -9,8 +9,7 @@ require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-kit/kit v0.10.0 // indirect
 	github.com/go-playground/validator/v10 v10.3.0 // indirect
-	github.com/gogo/protobuf v1.3.1
-	github.com/golang/protobuf v1.3.5
+	github.com/golang/protobuf v1.4.1
 	github.com/google/go-cmp v0.5.0 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/pierrec/lz4 v2.5.2+incompatible // indirect
@@ -18,6 +17,7 @@ require (
 	golang.org/x/net v0.0.0-20200822124328-c89045814202 // indirect
 	golang.org/x/sys v0.0.0-20200826173525-f9321e4c35a6 // indirect
 	google.golang.org/grpc v1.27.0 // indirect
+	google.golang.org/protobuf v1.25.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0
 )
