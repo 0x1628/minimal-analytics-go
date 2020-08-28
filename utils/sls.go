@@ -94,10 +94,10 @@ func MakeLogContent(data interface{}) []*sls.LogContent {
 		}
 
 		if typeName == "Time" {
-			time := value.Interface().(*timestamppb.Timestamp)
+			t := value.Interface().(*timestamppb.Timestamp)
 			content = append(content, &sls.LogContent{
 				Key:   proto.String("Time"),
-				Value: proto.String(time.String()),
+				Value: proto.String(time.Unix(t.Seconds, 8).String()),
 			})
 			continue
 		}

@@ -24,6 +24,18 @@ func getSls(c *gin.Context) *utils.SLSTarget {
 	return sls
 }
 
+func parseData(c *gin.Context, target proto.Message) error {
+	body, err := c.GetRawData()
+	if err != nil {
+		return err
+	}
+	err = proto.UnmarshalMerge(body, target)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func Events(c *gin.Context) {
 	s := getSls(c)
 
@@ -33,18 +45,13 @@ func Events(c *gin.Context) {
 	}
 
 	maevent := &gen.MAEvent{}
-	body, err := c.GetRawData()
-	if err != nil {
-		c.Status(403)
-		return
-	}
-	err = proto.UnmarshalMerge(body, maevent)
+	err := parseData(c, maevent)
 	if err != nil || maevent.User == nil {
 		c.Status(403)
 		return
 	}
 
-	contents := utils.MakeLogContent(maevent)
+	contents := utils.MakeLogContent(*maevent)
 	contents = append(contents, &sls.LogContent{
 		Key:   proto.String("type"),
 		Value: proto.String("events"),
@@ -61,20 +68,17 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	contents := utils.MakeLogContent(gen.MARegister{
-		User: &gen.MAUser{
-			DeviceId:  "123",
-			ServiceId: "456",
-		},
-		Os: "mac",
-	})
+	maregister := &gen.MARegister{}
+	err := parseData(c, maregister)
+	if err != nil || maregister.User == nil {
+		c.Status(403)
+		return
+	}
+
+	contents := utils.MakeLogContent(*maregister)
 	contents = append(contents, &sls.LogContent{
 		Key:   proto.String("type"),
 		Value: proto.String("register"),
 	})
 	s.Send("test", c.ClientIP(), contents)
-}
-
-func BatchLog(c *gin.Context) {
-
 }
