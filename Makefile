@@ -4,6 +4,12 @@ default:
 	echo "hello world"
 
 install:
-	mkdir -p gen && protoc -I=./proto --go_out=paths=source_relative:./gen ./proto/events.proto
+	mkdir -p gen && protoc -I=./proto --go_out=paths=source_relative:./gen ./proto/maevents.proto
 
-.PHONY: default install
+build:
+	go build -o ma
+
+dev: build
+	./ma
+
+.PHONY: default install build
