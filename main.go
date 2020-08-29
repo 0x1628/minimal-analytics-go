@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
@@ -12,7 +11,6 @@ import (
 )
 
 func main() {
-	fmt.Println("hello world")
 	config := utils.InitConfig()
 
 	r := gin.New()

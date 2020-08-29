@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"reflect"
+	"strings"
 	"time"
 
 	sls "github.com/aliyun/aliyun-log-go-sdk"
@@ -83,11 +84,11 @@ func MakeLogContent(data interface{}) []*sls.LogContent {
 		if typeName == "User" {
 			user := value.Interface().(*gen.MAUser)
 			content = append(content, &sls.LogContent{
-				Key:   proto.String("DeviceId"),
+				Key:   proto.String("device_id"),
 				Value: proto.String(user.DeviceId),
 			})
 			content = append(content, &sls.LogContent{
-				Key:   proto.String("ServiceId"),
+				Key:   proto.String("service_id"),
 				Value: proto.String(user.ServiceId),
 			})
 			continue
@@ -96,10 +97,16 @@ func MakeLogContent(data interface{}) []*sls.LogContent {
 		if typeName == "Time" {
 			t := value.Interface().(*timestamppb.Timestamp)
 			content = append(content, &sls.LogContent{
-				Key:   proto.String("Time"),
+				Key:   proto.String("time"),
 				Value: proto.String(time.Unix(t.Seconds, 8).String()),
 			})
 			continue
+		}
+
+		jsonName := v.Type().Field(i).Tag.Get("json")
+		jsonName = strings.Split(jsonName, ",")[0]
+		if jsonName != "" {
+			typeName = jsonName
 		}
 
 		content = append(content, &sls.LogContent{
