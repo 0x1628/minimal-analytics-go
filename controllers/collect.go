@@ -57,7 +57,7 @@ func Events(c *gin.Context) {
 		Value: proto.String("events"),
 	})
 
-	s.Send("test", c.ClientIP(), contents)
+	s.Send("app_events", c.ClientIP(), contents)
 }
 
 func Register(c *gin.Context) {
@@ -80,5 +80,5 @@ func Register(c *gin.Context) {
 		Key:   proto.String("type"),
 		Value: proto.String("register"),
 	})
-	s.Send("test", c.ClientIP(), contents)
+	s.Send("app_register", c.ClientIP(), contents)
 }

@@ -17,6 +17,7 @@ message MARegister {
   string network_type = 16;
   string ip = 17;
   string location = 18;
+  google.protobuf.Timestamp time = 19;
 }
 
 message MAEvent {
