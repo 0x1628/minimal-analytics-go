@@ -82,3 +82,25 @@ func Register(c *gin.Context) {
 	})
 	s.Send("app_register", c.ClientIP(), contents)
 }
+
+func Crash(c *gin.Context) {
+	s := getSls(c)
+
+	if s == nil {
+		c.Status(404)
+	}
+
+	macrash := &gen.MACrash{}
+	err := parseData(c, macrash)
+	if err != nil || macrash.User == nil {
+		c.Status(403)
+		return
+	}
+
+	contents := utils.MakeLogContent(*macrash)
+	contents = append(contents, &sls.LogContent{
+		Key: proto.String("type"),
+		Value: proto.String("crash"),
+	})
+	s.Send("app_crash", c.ClientIP(), contents)
+}

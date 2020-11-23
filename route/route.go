@@ -18,6 +18,7 @@ func Route(r *gin.Engine) {
 
 	r.POST("/:namespace/events", controllers.Events)
 	r.POST("/:namespace/register", controllers.Register)
+	r.POST("/:namespace/crash", controllers.Crash)
 	// r.POST("/:namespace/batch", controllers.BatchLog)
 
 	r.GET("/healthcheck", func(c *gin.Context) {
