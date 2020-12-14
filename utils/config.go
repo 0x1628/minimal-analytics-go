@@ -21,6 +21,7 @@ type Config struct {
 		Port int    `yaml:"port"`
 	} `yaml:"server"`
 	Puda ConfigItem `yaml:"puda"`
+	Crab ConfigItem `yaml:"crab"`
 }
 
 var config Config

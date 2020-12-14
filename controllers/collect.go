@@ -18,6 +18,9 @@ func getSls(c *gin.Context) *utils.SLSTarget {
 		if ns == "puda" {
 			sls = utils.InitPudaSLS()
 			slsMap["puda"] = sls
+		} else if ns == "crab" {
+			sls = utils.InitCrabSLS()
+			slsMap["crab"] = sls
 		}
 	}
 
@@ -99,7 +102,7 @@ func Crash(c *gin.Context) {
 
 	contents := utils.MakeLogContent(*macrash)
 	contents = append(contents, &sls.LogContent{
-		Key: proto.String("type"),
+		Key:   proto.String("type"),
 		Value: proto.String("crash"),
 	})
 	s.Send("app_crash", c.ClientIP(), contents)

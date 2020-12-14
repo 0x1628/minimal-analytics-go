@@ -40,9 +40,8 @@ type SLSTarget struct {
 	producer *producer.Producer
 }
 
-func InitPudaSLS() *SLSTarget {
+func InitSLS(config *ConfigItem) *SLSTarget {
 	producerConfig := producer.GetDefaultProducerConfig()
-	config := GetConfig().Puda
 	producerConfig.AccessKeyID = config.AccessKeyID
 	producerConfig.AccessKeySecret = config.AccessKeySecret
 	producerConfig.Endpoint = config.Endpoint
@@ -53,9 +52,19 @@ func InitPudaSLS() *SLSTarget {
 	producerInstance.Start()
 
 	return &SLSTarget{
-		config:   config,
+		config:   *config,
 		producer: producerInstance,
 	}
+}
+
+func InitPudaSLS() *SLSTarget {
+	config := GetConfig().Puda
+	return InitSLS(&config)
+}
+
+func InitCrabSLS() *SLSTarget {
+	config := GetConfig().Crab
+	return InitSLS(&config)
 }
 
 func (s *SLSTarget) Send(topic string, source string, content []*sls.LogContent) {
