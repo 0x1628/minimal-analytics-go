@@ -36,26 +36,26 @@ message MAEvent {
   string source_url = 10;
   string source_module = 11;
   string event_name = 12;
-  string event_attr1_type = 21;
-  string event_attr1_value = 22;
-  string event_attr2_type = 23;
-  string event_attr2_value = 24;
-  string event_attr3_type = 25;
-  string event_attr3_value = 26;
-  string event_attr4_type = 27;
-  string event_attr4_value = 28;
-  string event_attr5_type = 29;
-  string event_attr5_value = 30;
-  string event_attr6_type = 31;
-  string event_attr6_value = 32;
-  string event_attr7_type = 33;
-  string event_attr7_value = 34;
-  string event_attr8_type = 35;
-  string event_attr8_value = 36;
-  string event_attr9_type = 37;
-  string event_attr9_value = 38;
-  string event_attr10_type = 39;
-  string event_attr10_value = 40;
+  string et1 = 21;
+  string ev1 = 22;
+  string et2 = 23;
+  string ev2 = 24;
+  string et3 = 25;
+  string ev3 = 26;
+  string et4 = 27;
+  string ev4 = 28;
+  string et5 = 29;
+  string ev5 = 30;
+  string et6 = 31;
+  string ev6 = 32;
+  string et7 = 33;
+  string ev7 = 34;
+  string et8 = 35;
+  string ev8 = 36;
+  string et9 = 37;
+  string ev9 = 38;
+  string et10 = 39;
+  string ev10 = 40;
 }
 
 message MACrash {
