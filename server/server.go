@@ -2,15 +2,17 @@ package server
 
 import (
 	"context"
-	"github.com/fragment0/minimal-analytics-go/util"
-	"github.com/go-chi/chi/v5"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
+
+	"github.com/fragment0/minimal-analytics-go/util"
+	"github.com/go-chi/chi/v5"
 )
 
 func Start() {
@@ -41,9 +43,9 @@ func start(handler http.Handler) {
 	}()
 
 	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, os.Interrupt)
+	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL, syscall.SIGQUIT)
 
-	<- stop
+	<-stop
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
