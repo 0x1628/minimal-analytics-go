@@ -6,36 +6,63 @@ option go_package = "github.com/fragment0/minimal-analytics-go;gen";
 message MAUser {
   string device_id = 1;
   string service_id = 2;
+  string extra_id = 3;
 }
 
 message MARegister {
-  MAUser user = 11;
-  string os = 12;
-  string app_id = 13;
-  string screen = 14;
-  string app_version = 15;
-  string network_type = 16;
-  string ip = 17;
-  string location = 18;
-  google.protobuf.Timestamp time = 19;
+  MAUser user = 1;
+  string os = 2;
+  string app_id = 3;
+  string app_version = 4;
+  google.protobuf.Timestamp time = 5;
+  string screen = 6;
+  string ip = 7;
+  string network_type = 8;
+  string carrier = 9;
+  string channel = 10;
+  string extra = 11;
 }
 
 message MAEvent {
-  MAUser user = 31;
-  string event = 32;
-  google.protobuf.Timestamp time = 33;
-  string network_type = 34;
-  string page_title = 35;
-  string page_url = 36;
-  string event_value = 37;
-  string event_extra = 38;
+  MAUser user = 1;
+  string app_id = 2;
+  string session_id = 3;
+  google.protobuf.Timestamp time = 4;
+  string ip = 5;
+  string network_type = 6;
+  string carrier = 7;
+  string page_title = 8;
+  string page_url = 9;
+  string source_url = 10;
+  string source_module = 11;
+  string event_name = 12;
+  string event_attr1_type = 21;
+  string event_attr1_value = 22;
+  string event_attr2_type = 23;
+  string event_attr2_value = 24;
+  string event_attr3_type = 25;
+  string event_attr3_value = 26;
+  string event_attr4_type = 27;
+  string event_attr4_value = 28;
+  string event_attr5_type = 29;
+  string event_attr5_value = 30;
+  string event_attr6_type = 31;
+  string event_attr6_value = 32;
+  string event_attr7_type = 33;
+  string event_attr7_value = 34;
+  string event_attr8_type = 35;
+  string event_attr8_value = 36;
+  string event_attr9_type = 37;
+  string event_attr9_value = 38;
+  string event_attr10_type = 39;
+  string event_attr10_value = 40;
 }
 
 message MACrash {
-  MAUser user = 51;
-  string step = 52;
-  google.protobuf.Timestamp time = 53;
-  string page_title = 54;
-  string page_url = 55;
-  string log = 57;
+  MAUser user = 1;
+  string step = 2;
+  google.protobuf.Timestamp time = 3;
+  string page_title = 4;
+  string page_url = 5;
+  string log = 6;
 }

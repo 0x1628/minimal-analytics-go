@@ -1,10 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"github.com/fragment0/minimal-analytics-go/server"
 	"github.com/fragment0/minimal-analytics-go/util"
 )
 
 func main() {
-	fmt.Println(util.GetConfig())
+	util.InitSls()
+	server.Start()
 }

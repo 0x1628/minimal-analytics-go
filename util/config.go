@@ -6,18 +6,22 @@ import (
 	"os"
 )
 
+type SlsConfig struct {
+	AccessKeyID     string `yaml:"AccessKeyID"`
+	AccessKeySecret string `yaml:"AccessKeySecret"`
+	Endpoint        string `yaml:"Endpoint"`
+	ProjectName     string `yaml:"ProjectName"`
+	LogstoreName    string `yaml:"LogstoreName"`
+}
+
+type ServerConfig struct {
+	Host string `yaml:"host"`
+	Port int    `yaml:"port"`
+}
+
 type Config struct {
-	Server struct {
-		Host string `yaml:"host"`
-		Port int    `yaml:"port"`
-	} `yaml:"server"`
-	Sls struct {
-		AccessKeyID     string `yaml:"AccessKeyID"`
-		AccessKeySecret string `yaml:"AccessKeySecret"`
-		Endpoint        string `yaml:"Endpoint"`
-		ProjectName     string `yaml:"ProjectName"`
-		LogstoreName    string `yaml:"LogstoreName"`
-	} `yaml:"sls"`
+	Server ServerConfig `yaml:"server"`
+	Sls SlsConfig `yaml:"sls"`
 }
 
 var config Config

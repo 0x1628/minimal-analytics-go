@@ -7,9 +7,9 @@ install:
 	mkdir -p gen && protoc -I=./proto --go_out=paths=source_relative:./gen ./proto/maevents.proto
 
 build:
-	go build -o ma
+	go build -o ma-v2
 
-dev: build
-	./ma
+dev:
+	go run main.go
 
-.PHONY: default install build
+.PHONY: default install build dev
