@@ -1,32 +1,28 @@
-package utils
+package util
 
 import (
+	"gopkg.in/yaml.v2"
 	"log"
 	"os"
-
-	"gopkg.in/yaml.v2"
 )
-
-type ConfigItem struct {
-	AccessKeyID     string `yaml:"AccessKeyID"`
-	AccessKeySecret string `yaml:"AccessKeySecret"`
-	Endpoint        string `yaml:"Endpoint"`
-	ProjectName     string `yaml:"ProjectName"`
-	LogstoreName    string `yaml:"LogstoreName"`
-}
 
 type Config struct {
 	Server struct {
 		Host string `yaml:"host"`
 		Port int    `yaml:"port"`
 	} `yaml:"server"`
-	Puda ConfigItem `yaml:"puda"`
-	Crab ConfigItem `yaml:"crab"`
+	Sls struct {
+		AccessKeyID     string `yaml:"AccessKeyID"`
+		AccessKeySecret string `yaml:"AccessKeySecret"`
+		Endpoint        string `yaml:"Endpoint"`
+		ProjectName     string `yaml:"ProjectName"`
+		LogstoreName    string `yaml:"LogstoreName"`
+	} `yaml:"sls"`
 }
 
 var config Config
 
-func InitConfig() Config {
+func init() {
 	f, err := os.Open("./config.yaml")
 	if err != nil {
 		log.Fatal(err)
@@ -41,7 +37,6 @@ func InitConfig() Config {
 	}
 
 	config = c
-	return config
 }
 
 func GetConfig() Config {
