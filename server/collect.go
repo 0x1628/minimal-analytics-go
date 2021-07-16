@@ -32,8 +32,13 @@ func CollectEvent(writer http.ResponseWriter, request *http.Request) {
 
 	contents := util.MakeLogContent(maevent)
 	contents = append(contents, &sls.LogContent{
-		Key: proto.String("type"),
+		Key:   proto.String("type"),
 		Value: proto.String("event"),
+	})
+
+	contents = append(contents, &sls.LogContent{
+		Key:   proto.String("ip"),
+		Value: proto.String(request.Header.Get("x-real-ip")),
 	})
 
 	util.GetSlsTarget().Send("app_event", request.RemoteAddr, contents)
@@ -52,8 +57,13 @@ func CollectRegister(writer http.ResponseWriter, request *http.Request) {
 
 	contents := util.MakeLogContent(maregister)
 	contents = append(contents, &sls.LogContent{
-		Key: proto.String("type"),
+		Key:   proto.String("type"),
 		Value: proto.String("register"),
+	})
+
+	contents = append(contents, &sls.LogContent{
+		Key:   proto.String("ip"),
+		Value: proto.String(request.Header.Get("x-real-ip")),
 	})
 
 	util.GetSlsTarget().Send("app_register", request.RemoteAddr, contents)
@@ -72,7 +82,7 @@ func CollectCrash(writer http.ResponseWriter, request *http.Request) {
 
 	contents := util.MakeLogContent(macrash)
 	contents = append(contents, &sls.LogContent{
-		Key: proto.String("type"),
+		Key:   proto.String("type"),
 		Value: proto.String("crash"),
 	})
 

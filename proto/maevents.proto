@@ -16,11 +16,10 @@ message MARegister {
   string app_version = 4;
   google.protobuf.Timestamp time = 5;
   string screen = 6;
-  string ip = 7;
-  string network_type = 8;
-  string carrier = 9;
-  string channel = 10;
-  string extra = 11;
+  string network_type = 7;
+  string carrier = 8;
+  string channel = 9;
+  string extra = 10;
 }
 
 message MAEvent {
@@ -28,34 +27,24 @@ message MAEvent {
   string app_id = 2;
   string session_id = 3;
   google.protobuf.Timestamp time = 4;
-  string ip = 5;
-  string network_type = 6;
-  string carrier = 7;
-  string page_title = 8;
-  string page_url = 9;
-  string source_url = 10;
-  string source_module = 11;
-  string event_name = 12;
-  string et1 = 21;
-  string ev1 = 22;
-  string et2 = 23;
-  string ev2 = 24;
-  string et3 = 25;
-  string ev3 = 26;
-  string et4 = 27;
-  string ev4 = 28;
-  string et5 = 29;
-  string ev5 = 30;
-  string et6 = 31;
-  string ev6 = 32;
-  string et7 = 33;
-  string ev7 = 34;
-  string et8 = 35;
-  string ev8 = 36;
-  string et9 = 37;
-  string ev9 = 38;
-  string et10 = 39;
-  string ev10 = 40;
+  string network_type = 5;
+  string carrier = 6;
+  string page_title = 7;
+  string page_url = 8;
+  string source_url = 9;
+  string source_module = 10;
+  string event_name = 11;
+  string app_version = 12;
+  string ev1 = 21;
+  string ev2 = 22;
+  string ev3 = 23;
+  string ev4 = 24;
+  string ev5 = 25;
+  string ev6 = 26;
+  string ev7 = 27;
+  string ev8 = 28;
+  string ev9 = 29;
+  string ev10 = 30;
 }
 
 message MACrash {
@@ -65,4 +54,6 @@ message MACrash {
   string page_title = 4;
   string page_url = 5;
   string log = 6;
+  string app_id = 7;
+  string app_version = 8;
 }

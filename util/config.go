@@ -7,11 +7,13 @@ import (
 )
 
 type SlsConfig struct {
-	AccessKeyID     string `yaml:"AccessKeyID"`
-	AccessKeySecret string `yaml:"AccessKeySecret"`
-	Endpoint        string `yaml:"Endpoint"`
-	ProjectName     string `yaml:"ProjectName"`
-	LogstoreName    string `yaml:"LogstoreName"`
+	AccessKeyID      string `yaml:"AccessKeyID"`
+	AccessKeySecret  string `yaml:"AccessKeySecret"`
+	Endpoint         string `yaml:"Endpoint"`
+	ProjectName      string `yaml:"ProjectName"`
+	EventLogstore    string `yaml:"EventLogstore"`
+	RegisterLogstore string `yaml:"RegisterLogstore"`
+	CrashLogstore    string `yaml:"CrashLogstore"`
 }
 
 type ServerConfig struct {
@@ -21,7 +23,7 @@ type ServerConfig struct {
 
 type Config struct {
 	Server ServerConfig `yaml:"server"`
-	Sls SlsConfig `yaml:"sls"`
+	Sls    SlsConfig    `yaml:"sls"`
 }
 
 var config Config
