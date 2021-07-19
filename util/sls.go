@@ -1,4 +1,4 @@
-package utils
+package util
 
 import (
 	"fmt"
@@ -20,10 +20,11 @@ type Callback struct {
 }
 
 func (callback *Callback) Success(result *producer.Result) {
-	attemptList := result.GetReservedAttempts() // 遍历获得所有的发送记录
-	for _, attempt := range attemptList {
-		fmt.Println(attempt)
-	}
+	/*
+		attemptList := result.GetReservedAttempts() // 遍历获得所有的发送记录
+		for _, attempt := range attemptList {
+			fmt.Println(attempt)
+		} */
 }
 
 func (callback *Callback) Fail(result *producer.Result) {
@@ -35,44 +36,58 @@ func (callback *Callback) Fail(result *producer.Result) {
 	fmt.Println(result.GetTimeStampMs())      // 获得最后一次发送失败请求时间
 }
 
-type SLSTarget struct {
-	config   ConfigItem
+type SlsTarget struct {
+	config   SlsConfig
 	producer *producer.Producer
 }
 
-func InitSLS(config *ConfigItem) *SLSTarget {
+var slsTarget SlsTarget
+
+func InitSls() {
+	config := GetConfig()
 	producerConfig := producer.GetDefaultProducerConfig()
-	producerConfig.AccessKeyID = config.AccessKeyID
-	producerConfig.AccessKeySecret = config.AccessKeySecret
-	producerConfig.Endpoint = config.Endpoint
+	producerConfig.AccessKeyID = config.Sls.AccessKeyID
+	producerConfig.AccessKeySecret = config.Sls.AccessKeySecret
+	producerConfig.Endpoint = config.Sls.Endpoint
 
 	producerInstance := producer.InitProducer(producerConfig)
 	ch := make(chan os.Signal)
 	signal.Notify(ch)
 	producerInstance.Start()
 
-	return &SLSTarget{
-		config:   *config,
+	slsTarget = SlsTarget{
+		config:   config.Sls,
 		producer: producerInstance,
 	}
 }
 
-func InitPudaSLS() *SLSTarget {
-	config := GetConfig().Puda
-	return InitSLS(&config)
+func GetSlsTarget() *SlsTarget {
+	return &slsTarget
 }
 
-func InitCrabSLS() *SLSTarget {
-	config := GetConfig().Crab
-	return InitSLS(&config)
+func (s *SlsTarget) getSlsLogStore(topic string) string {
+	switch topic {
+	case "app_crash":
+		return s.config.CrashLogstore
+	case "app_register":
+		return s.config.RegisterLogstore
+	case "app_event":
+		return s.config.EventLogstore
+	}
+	return ""
 }
 
-func (s *SLSTarget) Send(topic string, source string, content []*sls.LogContent) {
+func (s *SlsTarget) Send(topic string, source string, content []*sls.LogContent) {
 	logcontent := &sls.Log{
 		Time:     proto.Uint32(uint32(time.Now().Unix())),
 		Contents: content,
 	}
-	err := s.producer.SendLogWithCallBack(s.config.ProjectName, s.config.LogstoreName, topic, source, logcontent, &Callback{})
+	logstore := s.getSlsLogStore(topic)
+	if logstore == "" {
+		log.Println("error log topic")
+		return
+	}
+	err := s.producer.SendLogWithCallBack(s.config.ProjectName, logstore, topic, source, logcontent, &Callback{})
 
 	if err != nil {
 		log.Println(err)
@@ -100,6 +115,10 @@ func MakeLogContent(data interface{}) []*sls.LogContent {
 				Key:   proto.String("service_id"),
 				Value: proto.String(user.ServiceId),
 			})
+			content = append(content, &sls.LogContent{
+				Key:   proto.String("extra_id"),
+				Value: proto.String(user.ExtraId),
+			})
 			continue
 		}
 
@@ -123,6 +142,11 @@ func MakeLogContent(data interface{}) []*sls.LogContent {
 			Value: proto.String(value.Interface().(string)),
 		})
 	}
+
+	content = append(content, &sls.LogContent{
+		Key:   proto.String("sys_time"),
+		Value: proto.String(fmt.Sprintf("%v", time.Now().Unix())),
+	})
 
 	return content
 }

@@ -6,36 +6,54 @@ option go_package = "github.com/fragment0/minimal-analytics-go;gen";
 message MAUser {
   string device_id = 1;
   string service_id = 2;
+  string extra_id = 3;
 }
 
 message MARegister {
-  MAUser user = 11;
-  string os = 12;
-  string app_id = 13;
-  string screen = 14;
-  string app_version = 15;
-  string network_type = 16;
-  string ip = 17;
-  string location = 18;
-  google.protobuf.Timestamp time = 19;
+  MAUser user = 1;
+  string os = 2;
+  string app_id = 3;
+  string app_version = 4;
+  google.protobuf.Timestamp time = 5;
+  string screen = 6;
+  string network_type = 7;
+  string carrier = 8;
+  string channel = 9;
+  string extra = 10;
 }
 
 message MAEvent {
-  MAUser user = 31;
-  string event = 32;
-  google.protobuf.Timestamp time = 33;
-  string network_type = 34;
-  string page_title = 35;
-  string page_url = 36;
-  string event_value = 37;
-  string event_extra = 38;
+  MAUser user = 1;
+  string app_id = 2;
+  string session_id = 3;
+  google.protobuf.Timestamp time = 4;
+  string network_type = 5;
+  string carrier = 6;
+  string page_title = 7;
+  string page_url = 8;
+  string source_url = 9;
+  string source_module = 10;
+  string event_name = 11;
+  string app_version = 12;
+  string ev1 = 21;
+  string ev2 = 22;
+  string ev3 = 23;
+  string ev4 = 24;
+  string ev5 = 25;
+  string ev6 = 26;
+  string ev7 = 27;
+  string ev8 = 28;
+  string ev9 = 29;
+  string ev10 = 30;
 }
 
 message MACrash {
-  MAUser user = 51;
-  string step = 52;
-  google.protobuf.Timestamp time = 53;
-  string page_title = 54;
-  string page_url = 55;
-  string log = 57;
+  MAUser user = 1;
+  string step = 2;
+  google.protobuf.Timestamp time = 3;
+  string page_title = 4;
+  string page_url = 5;
+  string log = 6;
+  string app_id = 7;
+  string app_version = 8;
 }
